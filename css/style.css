@@ -52,6 +52,20 @@ button {
     transition: background 0.3s;
 }
 
+@media (max-width: 600px) {
+    .container {
+    width: 100%;
+    margin: 20px;
+    }
+    #city-input {
+    width: calc(100% - 20px);
+    }
+    #search-btn {
+    width: 100%;
+    margin-top: 10px;
+    }
+}
+ 
 button:hover {
     background: #00b4db;
 }
