@@ -1,6 +1,4 @@
 const apiKey = '295b67fe71f946549d6101332242410'; // Sign up at weatherapi to get an API key
-const cityInput = document.getElementById('city-input');
-const searchBtn = document.getElementById('search-btn');
 
 // DOM elements
 const cityElement = document.getElementById('city');
@@ -20,7 +18,7 @@ async function getWeatherData(city) {
         if (!response.ok) {
             throw new Error('City not found');
         }
-
+        
         const data = await response.json();
         updateWeatherUI(data);
     } catch (error) {
@@ -38,8 +36,11 @@ function updateWeatherUI(data) {
     windSpeedElement.textContent = `${data.current.wind_kph} km/h`;
 }
 
+const cityInput = document.getElementById('city-input');
+const searchBtn = document.getElementById('search-btn');
 searchBtn.addEventListener('click', () => {
     const city = cityInput.value.trim();
+    console.log('City entered:',city);
     if (city) {
         getWeatherData(city);
     }

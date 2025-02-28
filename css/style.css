@@ -34,7 +34,7 @@ h1 {
     margin-bottom: 2rem;
 }
 
-input {
+#city-input {
     flex: 1;
     padding: 0.5rem;
     border: 1px solid #ccc;
@@ -42,7 +42,7 @@ input {
     font-size: 1rem;
 }
 
-button {
+#search-btn {
     padding: 0.5rem 1rem;
     background: #0083b0;
     color: white;
