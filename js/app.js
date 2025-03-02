@@ -1,5 +1,3 @@
-const apiKey = '295b67fe71f946549d6101332242410'; // Sign up at weatherapi to get an API key
-
 // DOM elements
 const cityElement = document.getElementById('city');
 const countryElement = document.getElementById('country');
@@ -9,23 +7,28 @@ const weatherIconElement = document.getElementById('weather-icon');
 const humidityElement = document.getElementById('humidity');
 const windSpeedElement = document.getElementById('wind-speed');
 
+//function to fetch weather data
 async function getWeatherData(city) {
+    const apiKey = '295b67fe71f946549d6101332242410'; // Sign up at weatherapi to get an API key
+    const apiUrl=`http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&aqi=no`
     try {
-        const response = await fetch(
-            `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&aqi=no`
-        );
+        const response = await fetch(apiUrl);
         
         if (!response.ok) {
             throw new Error('City not found');
         }
         
         const data = await response.json();
+        console.log("Weather data:",data); // Explore the weather data in the console.
         updateWeatherUI(data);
+
     } catch (error) {
+        console.error("Error fetching weather data:",error);
         alert(error.message);
     }
 }
 
+//function to update the UI
 function updateWeatherUI(data) {
     cityElement.textContent = data.location.name;
     countryElement.textContent = data.location.country;
