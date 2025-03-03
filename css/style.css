@@ -72,6 +72,10 @@ button:hover {
 
 .weather-info {
     text-align: center;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .location h2 {
@@ -91,6 +95,25 @@ button:hover {
 .weather-details h3 {
     font-size: 2.5rem;
     margin: 1rem 0;
+}
+
+#temperature {
+    font-size: 36px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+#description {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+#city {
+    font-size: 24px;
+    font-weight: bold;
+    color: #007BFF;
+    margin-bottom: 10px;
 }
 
 .additional-info {
