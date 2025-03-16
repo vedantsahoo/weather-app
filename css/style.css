@@ -30,6 +30,7 @@ h1 {
 
 .search-box {
     display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
     margin-bottom: 2rem;
 }
@@ -62,7 +63,6 @@ h1 {
     }
     #search-btn {
     width: 100%;
-    margin-top: 10px;
     }
 }
 
@@ -120,6 +120,60 @@ button:hover {
     display: flex;
     justify-content: space-around;
     margin-top: 2rem;
-    padding-top: 2rem;
+    padding-top: 1rem;
     border-top: 1px solid #ccc;
+}
+
+.forecast {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.forecast h2 {
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.forecast-day {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.day-card {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.day-date {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.day-weather-icon img {
+    width: 50px;
+    height: 50px;
+}
+
+.day-temperature {
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+}
+
+.day-description {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+@media (max-width: 600px) {
+    .forecast-day {
+        flex-direction: column;
+    }
+    
+    .day-card {
+        margin-bottom: 1rem;
+    }
 }
