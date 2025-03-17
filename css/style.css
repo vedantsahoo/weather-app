@@ -19,7 +19,7 @@ body {
     border-radius: 1rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     width: 90%;
-    max-width: 400px;
+    max-width: 450px;
 }
 
 h1 {
@@ -166,6 +166,14 @@ button:hover {
 .day-description {
     font-size: 0.9rem;
     color: #666;
+}
+
+.day-humidity {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid #eee;
 }
 
 @media (max-width: 600px) {
