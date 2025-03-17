@@ -19,7 +19,7 @@ body {
     border-radius: 1rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     width: 90%;
-    max-width: 450px;
+    max-width: 440px;
 }
 
 h1 {
@@ -30,20 +30,27 @@ h1 {
 
 .search-box {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 1rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
 }
 
 #city-input {
     flex: 1;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
+    padding: 0.8rem;
+    border: 2px solid #ccc;
     border-radius: 4px;
     font-size: 1rem;
+    transition: border-color 0.3s ease;
 }
 
-#search-btn {
+#city-input:focus {
+    outline: none;
+    border-color: #0083b0;
+    box-shadow: 0 0 5px rgba(0, 131, 176, 0.3);
+}
+
+#location-btn {
     padding: 0.5rem 1rem;
     background: #0083b0;
     color: white;
@@ -53,16 +60,22 @@ h1 {
     transition: background 0.3s;
 }
 
-@media (max-width: 600px) {
-    .container {
-    width: 100%;
-    margin: 20px;
+#location-btn:hover {
+    background: #00b4db;
+}
+
+#location-btn:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+}
+
+@media (min-width: 600px) {
+    .search-box {
+        flex-direction: row;
     }
+    
     #city-input {
-    width: calc(100% - 20px);
-    }
-    #search-btn {
-    width: 100%;
+        min-width: 250px;
     }
 }
 
@@ -125,7 +138,7 @@ button:hover {
 }
 
 .forecast {
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     text-align: center;
 }
 
@@ -180,8 +193,34 @@ button:hover {
     .forecast-day {
         flex-direction: column;
     }
-    
-    .day-card {
-        margin-bottom: 1rem;
+}
+
+.coordinates {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    background-color: rgba(0, 131, 176, 0.1);
+    border-radius: 4px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.coordinates p {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.coordinates span {
+    font-weight: bold;
+    color: #0083b0;
+}
+
+@media (max-width: 400px) {
+    .coordinates {
+        flex-direction: column;
+        gap: 0.5rem;
     }
 }
