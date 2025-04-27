@@ -10,7 +10,7 @@ const windSpeedElement = document.getElementById('wind-speed');
 //function to fetch weather data
 async function getWeatherData(city) {
     const apiKey = '295b67fe71f946549d6101332242410'; // Sign up at weatherapi to get an API key
-    const apiUrl = `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=3&aqi=no`;
+    const apiUrl = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=3&aqi=no`;
     try {
         const response = await fetch(apiUrl);
         
@@ -67,7 +67,7 @@ function updateForecastUI(forecastData) {
 // Add new function to get weather by coordinates
 async function getWeatherByCoords(latitude, longitude) {
     const apiKey = '295b67fe71f946549d6101332242410';
-    const apiUrl = `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${latitude},${longitude}&days=3&aqi=no`;
+    const apiUrl = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${latitude},${longitude}&days=3&aqi=no`;
     
     try {
         const response = await fetch(apiUrl);
