@@ -14,8 +14,9 @@ async function getWeatherData(city) {
     try {
         const response = await fetch(apiUrl);
         
-        if (!response.ok) {
-            throw new Error('City not found');
+        if (!response.ok || typeof city !== 'string') {
+            // Used typeof if the city data type is not in string.
+            throw new Error('Invalid city name, Please provide a valid city.');
         }
         
         const data = await response.json();
@@ -144,7 +145,7 @@ function debounce(func, wait) {
     };
 }
 
-// Function to check if input is valid
+// Function to check if input that is -> "city" is valid
 function isValidInput(input) {
     return input.length >= 3 && /^[a-zA-Z\s-]+$/.test(input);
 }
