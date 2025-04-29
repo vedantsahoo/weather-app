@@ -14,8 +14,8 @@ async function getWeatherData(city) {
     try {
         const response = await fetch(apiUrl);
         
-        if (!response.ok || typeof city !== 'string') {
-            // Used typeof if the city data type is not in string.
+        if (!response.ok || typeof city !== 'string' || city.trim() === '') {
+            // Check if the response is not ok or if the city is not a string or empty
             throw new Error('Invalid city name, Please provide a valid city.');
         }
         
@@ -37,6 +37,7 @@ function updateWeatherUI(data) {
     temperatureElement.textContent = `${(data.current.temp_c)}°C`;
     descriptionElement.textContent = data.current.condition.text;
     weatherIconElement.src = `https:${data.current.condition.icon}`;
+    weatherIconElement.alt = data.current.condition.text || 'Weather icon';
     humidityElement.textContent = `${data.current.humidity}%`;
     windSpeedElement.textContent = `${data.current.wind_kph} km/h`;
     
@@ -56,9 +57,11 @@ function updateForecastUI(forecastData) {
         const date = new Date(day.date);
         
         // Update each card with real forecast data
-        card.querySelector('.day-date').textContent = index === 0 ? 'Today' : 
-            index === 1 ? 'Tomorrow' : date.toLocaleDateString('en-US', { weekday: 'long' });
-        card.querySelector('.day-weather-icon img').src = `https:${day.day.condition.icon}`;
+        card.querySelector('.day-date').textContent = index === 0 ? 'Today' : index === 1 ? 'Tomorrow' : 
+            date.toLocaleDateString('en-US', { weekday: 'long' });
+        const weatherIcon = card.querySelector('.day-weather-icon img');
+        weatherIcon.src = `https:${day.day.condition.icon}`;
+        weatherIcon.alt = day.day.condition.text || 'Weather icon';
         card.querySelector('.day-temperature').textContent = `${Math.round(day.day.avgtemp_c)}°C`;
         card.querySelector('.day-description').textContent = day.day.condition.text;
         card.querySelector('.day-humidity').textContent = `Humidity: ${day.day.avghumidity}%`;
@@ -102,13 +105,12 @@ function handleGeolocation() {
     navigator.geolocation.getCurrentPosition(
         (position) => {
             const { latitude, longitude } = position.coords;
-            
+            console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
             // Update coordinates immediately when getting user's location
             document.getElementById('latitude').textContent = 
                 Number(latitude).toFixed(2);
             document.getElementById('longitude').textContent = 
                 Number(longitude).toFixed(2);
-            
             getWeatherByCoords(latitude, longitude);
             locationBtn.textContent = '📍 Use My Location';
             locationBtn.disabled = false;
