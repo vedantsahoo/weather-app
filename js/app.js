@@ -30,11 +30,18 @@ async function getWeatherData(city) {
     }
 }
 
+let isCelsius = true;
+let latestWeatherData = null;
+let latestForecastData = null;
+
 //function to update the UI
 function updateWeatherUI(data) {
+    latestWeatherData = data; // Save for toggling
     cityElement.textContent = data.location.name;
     countryElement.textContent = data.location.country;
-    temperatureElement.textContent = `${(data.current.temp_c)}°C`;
+    // Update temperature based on the unit
+    const temp = isCelsius ? Math.round(data.current.temp_c) : convertTemperature(data.current.temp_c, true); // Convert to Fahrenheit if needed
+    temperatureElement.textContent = isCelsius ? `${temp}°C` : `${temp}°F`;
     descriptionElement.textContent = data.current.condition.text;
     weatherIconElement.src = `https:${data.current.condition.icon}`;
     weatherIconElement.alt = data.current.condition.text || 'Weather icon';
@@ -42,27 +49,28 @@ function updateWeatherUI(data) {
     windSpeedElement.textContent = `${data.current.wind_kph} km/h`;
     
     // Update coordinates with 2 decimal places
-    document.getElementById('latitude').textContent = 
-        Number(data.location.lat).toFixed(2);
-    document.getElementById('longitude').textContent = 
-        Number(data.location.lon).toFixed(2);
+    document.getElementById('latitude').textContent = Number(data.location.lat).toFixed(2);
+    document.getElementById('longitude').textContent = Number(data.location.lon).toFixed(2);
 }
 
 // Function to update the forecast UI with real data
 function updateForecastUI(forecastData) {
+    latestForecastData = forecastData; // Save for toggling
     const dayCards = document.querySelectorAll('.day-card');
-    
+
     forecastData.forEach((day, index) => {
         const card = dayCards[index];
         const date = new Date(day.date);
         
         // Update each card with real forecast data
-        card.querySelector('.day-date').textContent = index === 0 ? 'Today' : index === 1 ? 'Tomorrow' : 
-            date.toLocaleDateString('en-US', { weekday: 'long' });
+        card.querySelector('.day-date').textContent = index === 0 ? 'Today' : index === 1 ? 'Tomorrow' :
+         date.toLocaleDateString('en-US', { weekday: 'long' });
         const weatherIcon = card.querySelector('.day-weather-icon img');
         weatherIcon.src = `https:${day.day.condition.icon}`;
         weatherIcon.alt = day.day.condition.text || 'Weather icon';
-        card.querySelector('.day-temperature').textContent = `${Math.round(day.day.avgtemp_c)}°C`;
+        // Update temperature based on the unit
+        const temp = isCelsius ? Math.round(day.day.avgtemp_c) : convertTemperature(day.day.avgtemp_c, true); // Convert to Fahrenheit if needed
+        card.querySelector('.day-temperature').textContent = isCelsius ? `${temp}°C` : `${temp}°F`;
         card.querySelector('.day-description').textContent = day.day.condition.text;
         card.querySelector('.day-humidity').textContent = `Humidity: ${day.day.avghumidity}%`;
     });
@@ -97,22 +105,18 @@ function handleGeolocation() {
         alert('Geolocation is not supported by your browser');
         return;
     }
-
     const locationBtn = document.getElementById('location-btn');
     locationBtn.textContent = 'Loading...';
     locationBtn.disabled = true;
-
     navigator.geolocation.getCurrentPosition(
         (position) => {
             const { latitude, longitude } = position.coords;
             console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
             // Update coordinates immediately when getting user's location
-            document.getElementById('latitude').textContent = 
-                Number(latitude).toFixed(2);
-            document.getElementById('longitude').textContent = 
-                Number(longitude).toFixed(2);
+            document.getElementById('latitude').textContent = Number(latitude).toFixed(2);
+            document.getElementById('longitude').textContent = Number(longitude).toFixed(2);
             getWeatherByCoords(latitude, longitude);
-            locationBtn.textContent = '📍 Use My Location';
+            locationBtn.textContent = '📍 Current Location';
             locationBtn.disabled = false;
         },
         (error) => {
@@ -129,7 +133,7 @@ function handleGeolocation() {
                     break;
             }
             alert(message);
-            locationBtn.textContent = '📍 Use My Location';
+            locationBtn.textContent = '📍 Current Location';
             locationBtn.disabled = false;
         }
     );
@@ -174,3 +178,22 @@ cityInput.addEventListener('input', (event) => {
     
     debouncedGetWeather(city);
 });
+
+// Toggle button logic
+const unitToggleBtn = document.getElementById('unit-toggle');
+unitToggleBtn.addEventListener('click', () => {
+    isCelsius = !isCelsius;
+    unitToggleBtn.textContent = isCelsius ? '°C / °F' : '°F / °C';
+    // Re-render UI with new unit
+    if (latestWeatherData) updateWeatherUI(latestWeatherData);
+    if (latestForecastData) updateForecastUI(latestForecastData);
+});
+
+// Update convertTemperature to always return Fahrenheit if tempF=true
+function convertTemperature(tempC, tempF = true) {
+    if (tempF) {
+        return Math.round((tempC * 9/5) + 32); // Convert to Fahrenheit
+    } else {
+        return Math.round(tempC); // Keep Celsius as is
+    }
+}
