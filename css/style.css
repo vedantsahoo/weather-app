@@ -24,6 +24,7 @@ body {
 
 h1 {
     text-align: center;
+    font-size: 2.5rem;
     margin-bottom: 2rem;
     color: rgba(100, 100, 100, 0.9);
 }
@@ -92,7 +93,6 @@ button:hover {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     margin-top: 1rem;
     margin-bottom: 1rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.18);
     position: relative;
 }
@@ -134,6 +134,7 @@ button:hover {
     font-size: 24px;
     font-weight: bold;
     color: #007BFF;
+    margin-top: 10px; 
     margin-bottom: 10px;
 }
 
@@ -243,18 +244,124 @@ button:hover {
 
 #unit-toggle {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 2px;
+    right: 2px;
     background-color: #0083b0;
     color: white;
     border: none;
     opacity: 0.6;
     padding: 0.5rem 1rem;
-    border-radius: 20px;
+    border-radius: 16px;
     cursor: pointer;
     transition: all 0.3s ease;
     font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 1px;
     z-index: 2;
+}
+#save-favorite-btn {
+    background-color: #0083b0;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+#save-favorite-btn:hover {
+    background-color: #00b4db;
+}
+
+.favorites {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background-color: rgba(0, 131, 176, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.favorites h2 {
+    text-align: center;
+    color: rgba(100, 100, 100, 0.9);
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+#favorites-list {
+    list-style: none;
+    padding: 0;
+}
+
+#favorites-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+#favorites-list li button {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.3rem 0.6rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#favorites-list li button:hover {
+    background-color: #ff1a1a;
+}
+
+/* Mobile devices (max-width: 600px) */
+@media only screen and (max-width: 600px) {
+    body {
+    font-size: 14px;
+    padding: 10px;
+    }
+    .forecast-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    }
+    .forecast-item {
+    margin: 10px;
+    }
+}
+/* Tablets (min-width: 601px) and (max-width: 900px) */
+@media only screen and (min-width: 601px) and (max-width: 900px) {
+    body {
+    font-size: 16px;
+    padding: 15px;
+    }
+    .forecast-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    }
+    .forecast-item {
+    margin: 15px;
+    }
+}
+/* Desktops (min-width: 901px) */
+@media only screen and (min-width: 901px) {
+    body {
+    font-size: 18px;
+    padding: 20px;
+    }
+    .forecast-container {
+    display: flex;
+    justify-content: space-around;
+    }
+    .forecast-item {
+    margin: 20px;
+    }
 }

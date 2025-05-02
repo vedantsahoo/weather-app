@@ -6,6 +6,7 @@ const descriptionElement = document.getElementById('description');
 const weatherIconElement = document.getElementById('weather-icon');
 const humidityElement = document.getElementById('humidity');
 const windSpeedElement = document.getElementById('wind-speed');
+const favoritesList = document.getElementById('favorites-list');
 
 //function to fetch weather data
 async function getWeatherData(city) {
@@ -197,3 +198,98 @@ function convertTemperature(tempC, tempF = true) {
         return Math.round(tempC); // Keep Celsius as is
     }
 }
+
+// Load favorites from local storage
+function loadFavorites() {
+    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    renderFavorites(favorites);
+}
+
+// Save a city to favorites
+function saveFavorite(city) {
+    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    if (!favorites.includes(city)) {
+        favorites.push(city);
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        renderFavorites(favorites);
+    } else {
+        alert(`${city} is already in your favorites.`);
+    }
+}
+
+// Remove a city from favorites
+function removeFavorite(city) {
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    favorites = favorites.filter(fav => fav !== city);
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+    renderFavorites(favorites);
+}
+
+// Function to fetch weather for a favorite city
+function fetchWeatherForFavorite(city) {
+    if (!city) {
+        alert('City name is missing.');
+        return;
+    }
+
+    // Use the existing getWeatherData function to fetch and display weather
+    getWeatherData(city);
+}
+
+// Render the favorites list
+function renderFavorites(favorites) {
+    favoritesList.innerHTML = '';
+    favorites.forEach(city => {
+        const li = document.createElement('li');
+        li.textContent = city;
+
+        // Button to fetch weather for the favorite city
+        const fetchBtn = document.createElement('button');
+        fetchBtn.textContent = 'View Weather';
+        fetchBtn.style.marginRight = '0.5rem';
+        fetchBtn.addEventListener('click', () => fetchWeatherForFavorite(city));
+
+        // Button to remove the favorite city
+        const removeBtn = document.createElement('button');
+        removeBtn.textContent = 'Remove';
+        removeBtn.addEventListener('click', () => removeFavorite(city));
+
+        li.appendChild(fetchBtn);
+        li.appendChild(removeBtn);
+        favoritesList.appendChild(li);
+    });
+}
+
+// Add a button to save the current city to favorites
+function addSaveToFavoritesButton() {
+    const saveBtn = document.createElement('button');
+    saveBtn.id = 'save-favorite-btn';
+    saveBtn.textContent = 'Add to Favorites';
+    saveBtn.style.marginTop = '1rem';
+    saveBtn.style.padding = '0.5rem 1rem';
+    saveBtn.style.backgroundColor = '#0083b0';
+    saveBtn.style.color = 'white';
+    saveBtn.style.border = 'none';
+    saveBtn.style.borderRadius = '20px';
+    saveBtn.style.cursor = 'pointer';
+
+    saveBtn.addEventListener('click', () => {
+        const city = cityElement.textContent;
+        if (city && city !== 'City Name') {
+            saveFavorite(city);
+        } else {
+            alert('No city to save. Please search for a city first.');
+        }
+    });
+
+    document.querySelector('.weather-info').appendChild(saveBtn);
+}
+
+// Initialize the favorites feature
+function initFavoritesFeature() {
+    loadFavorites();
+    addSaveToFavoritesButton();
+}
+
+// Call the initialization function
+initFavoritesFeature();
